@@ -1,61 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-
-
 <head>
     <!-- Bootstrap CDN things //David -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <!-- this is also bootstrap stuff to let phones zoom in etc //David-->
+    <!-- this is also bootstrap stuff to let phones zoom in etc //David -->
     <meta charset="utf-8">
-    <meta name="viewport"content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Rate the View</title>
-    
 </head>
 
 <body>
+<div class="container">
+    <h1>Rate the View</h1>
 
-<h1>Rate the View</h1>
+    <nav>
+        <a href="/">Home</a>
+        <a href="#">Upload</a>
+        <a href="#">Profile</a>
+        <a href="/contact-us">Contact Us</a>
+    </nav>
 
-<nav>
-    <a href="/">Home</a>
-    <a href="#">Upload</a>
-    <a href="#">Profile</a>
-    <a href="/contact-us">Contact Us</a>
-</nav>
+    <hr>
 
-<hr>
+    <input type="text" placeholder="Search views...">
 
-<input type="text" placeholder="Search views...">
+    <h2>Posts</h2>
 
-<h2>Example Post</h2>
+    {% for post in posts %}
+        <div>
+            <p><strong>@{{ post.username }}</strong> • {{ post.location }}</p>
 
-<p><strong>@callum3925</strong> • Isle of Skye</p>
+            <p>{{ post.title }}</p>
 
-<p>Sunset at Isle of Skye</p>
+            <button>▲ Upvote</button>
+            <span>{{ post.votes }}</span>
+            <button>▼ Downvote</button>
 
-<button>▲ Upvote</button>
-<span>82</span>
-<button>▼ Downvote</button>
+            <button>Follow</button>
+        </div>
 
-<button>Follow</button>
+        <hr>
+    {% empty %}
+        <p>No posts available.</p>
+    {% endfor %}
 
-<hr>
+    <h3>Top Views of the Week</h3>
 
-<h3>Top Views of the Week</h3>
+    <ol>
+        {% for view in top_views %}
+            <li>{{ view.title }} - ▲{{ view.votes }}</li>
+        {% empty %}
+            <li>No top views available.</li>
+        {% endfor %}
+    </ol>
 
-<ol>
-    <li>Swiss Alps - ▲245</li>
-    <li>Glencoe - ▲198</li>
-    <li>Patagonia - ▲150</li>
-</ol>
-
-<button>View</button>
-
+    <button>View</button>
+</div>
 </body>
 </html>
