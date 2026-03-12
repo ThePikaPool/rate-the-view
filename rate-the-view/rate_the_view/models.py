@@ -9,8 +9,8 @@ class Posts(models.Model):
     post_id = models.AutoField(primary_key=True)
     slug = models.SlugField(max_length=250, unique=True, blank=True)
     description = models.TextField(blank=True)
-    location = models.CharField(max_length=20, blank=True)
-    # rating = models.PositiveSmallIntegerField(default = 0)
+    location = models.CharField(max_length=100, blank=True)
+
     created_by = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
