@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ user.username }} - Profile</title>
+</head>
+
+<body>
+
+<h1>Rate the View</h1>
+
+<nav>
+    <a href="/">Home</a>
+    <a href="#">Upload</a>
+    <a href="#">Profile</a>
+    <a href="/contact-us">Contact Us</a>
+    <a href="#">Logout</a>
+</nav>
+
+<hr>
+
+<h2>@{{ user.username }}</h2>
+
+<p>Total Likes: {{ user.total_likes }} | Total Posts: {{ user.total_posts }}</p>
+
+<p>Following: {{ user.following }} | Followers: {{ user.followers }}</p>
+
+<button>Edit Profile</button>
+
+<hr>
+
+<h3>My Uploaded Views</h3>
+
+{% for post in posts %}
+
+<div>
+
+<!-- Image placeholder -->
+<img src="{{ post.image }}" alt="User view" width="300">
+
+<p>▲ {{ post.votes }}</p>
+
+<button>Edit</button>
+<button>Delete</button>
+
+</div>
+
+<hr>
+
+{% empty %}
+
+<p>No uploaded views yet.</p>
+
+{% endfor %}
+
+</body>
+</html>

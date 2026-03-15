@@ -2,9 +2,9 @@ from django.shortcuts import render
 
 def home(request):
 
-    # Example placeholder data for homepage posts
-    # This is temporary so the template can render
-    # Teammate who implements the database should replace this
+    #Example placeholder data for homepage posts
+    #This is temporary so the template can render
+    #Teammate who implements the database should replace this
     posts = [
         {
             "username": "callum3925",
@@ -17,3 +17,40 @@ def home(request):
     context = {"posts": posts}
 
     return render(request, 'rate_the_view/home.html', context)
+
+def profile(request, username):
+
+    #Example placeholder data for homepage posts
+    #This is temporary so the template can render
+    #Teammate who implements the database should replace this
+    user = {
+        "username": username,
+        "bio": "Travel photographer exploring scenic views around the world.",
+        "total_likes": 421,
+        "total_posts": 4,
+        "following": 82,
+        "followers": 2211
+    }
+
+    #Example placeholder posts belonging to the user
+    posts = [
+        {
+            "image": "https://via.placeholder.com/300",
+            "votes": 120
+        },
+        {
+            "image": "https://via.placeholder.com/300",
+            "votes": 98
+        },
+        {
+            "image": "https://via.placeholder.com/300",
+            "votes": 162
+        }
+    ]
+
+    context = {
+        "user": user,
+        "posts": posts
+    }
+
+    return render(request, 'rate_the_view/profile.html', context)
