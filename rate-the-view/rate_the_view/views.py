@@ -54,3 +54,7 @@ def profile(request, username):
     }
 
     return render(request, 'rate_the_view/profile.html', context)
+
+
+def contact_us(request):
+    return render(request, 'rate_the_view/contact_us.html')
