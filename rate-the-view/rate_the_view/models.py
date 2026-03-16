@@ -20,7 +20,7 @@ class Posts(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = [-'created_at']
+        ordering = ['-created_at']
         verbose_name = "Post"
         verbose_name_plural = "Posts"
 
