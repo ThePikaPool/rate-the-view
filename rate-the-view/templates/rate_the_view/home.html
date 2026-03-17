@@ -19,20 +19,18 @@
 
     <!-- NAV SECTION CSS -->
 
-    <nav class="navbar navbar-inverse">
+    <nav>
+        <a href="{% url 'rate_the_view:home' %}">Home</a>
+        <a href="#">Upload</a>
 
-        <div class="container-fluid">
-            <ul class="nav navbar-nav">
-                <li class="active">
-             
-                <li><a href="/">Home</a></li>
-                <li><a href="#">Upload</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="/contact-us">Contact Us</a></li>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'rate_the_view:profile' request.user.username %}">Profile</a>
+            <a href="{% url 'rate_the_view:logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'rate_the_view:login' %}">Login</a>
+        {% endif %}
 
-            </ul>
-        </div>
-        
+        <a href="/contact-us">Contact Us</a>
     </nav>
 
     <!-- NAV SECTION ENDED -->
