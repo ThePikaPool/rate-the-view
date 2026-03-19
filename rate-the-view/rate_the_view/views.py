@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from .forms import UserForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
+from .models import Post
 def home(request):
 
     #Example placeholder data for homepage posts
@@ -19,6 +21,7 @@ def home(request):
 
     return render(request, 'rate_the_view/home.html', context)
 
+@login_required
 def profile(request, username):
 
     #Example placeholder data for homepage posts
@@ -60,23 +63,58 @@ def profile(request, username):
 def contact_us(request):
     return render(request, 'rate_the_view/contact_us.html')
 
-
-def signup(request):
-    registered = False
-
+def login_view(request):
     if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-        if user_form.is_valid():
-            user_form.save()
-            registered = True
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('rate_the_view:home')
+
         else:
-            print(user_form.errors)
-    else:
-        user_form = UserForm()
+            context = {"error": "Invalid username or password"}
+            return render(request, 'rate_the_view/login.html', context)
 
-    return render(
-        request,
-        'rate_the_view/signup.html',
-        {'user_form': user_form, 'registered': registered}
-    )
+    return render(request, 'rate_the_view/login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('rate_the_view:home')
+
+def view_post_detail(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    context = {
+        'post': post,
+    }
+    return render(request, 'rate_the_view/view_post.html', context)
+
+@login_required
+def upvote_post(request, slug):
+    if request.method == "POST":
+        post = get_object_or_404(Post, slug=slug)
+
+        post.downvotes.remove(request.user)
+
+        if post.upvotes.filter(id=requst.user.id).exists():
+            post.upvotes.remove(request.user)
+        else:
+            post.upvotes.add(request.user)
+
+    return redirect('rate_the_view:view_post', slug=slug)
+
+@login_required
+def downvote_post(request, slug):
+    if request.method == "POST":    
+        post = get_object_or_404(Post, slug=slug)
+
+        post.upvotes.remove(request.user)
+
+        if post.downvotes.filter(id=request.user.id).exists():
+            post.downvotes.remove(request.user)
+        else:
+            post.downvotes.add(request.user)
+
+    return redirect('rate_the_view:view_post', slug=slug)

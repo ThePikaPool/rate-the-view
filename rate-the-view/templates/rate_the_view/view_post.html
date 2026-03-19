@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ post.title }} - Rate the View</title>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    </head>
+    <body>
+
+        <div class="w3-container w3-emerald">
+            <h1>Rate the View</h1>
+        </div>
+
+        <div class="w3-bar w3-olive">
+            <a href="{% url 'rate_the_view:home' %}" class="w3-bar-item w3-button">Home</a>
+            <a href="#" class="w3-bar-item w3-button">Upload</a>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'rate_the_view:profile' request.user.username %}" class="w3-bar-item w3-button">Profile</a>
+                <a href="{% url 'rate_the_view:logout' %}" class="w3-bar-item w3-button">Logout</a>
+
+            {% else %}
+                <a href="{% url 'rate_the_view:login' %}" class="w3-bar-item w3-button">Login</a>
+            
+            {% endif %}
+            <a href="{% url 'rate_the_view:contact-us' %}" class="w3-bar-item w3-button">Contact us</a>
+        </div>
+
+        <div class="w3-container w3-padding-32">
+            <h2>{{ post.title }}</h2>
+
+            <div class="w3-text-grey w3-small">
+                Posted by @{{ post.created_by.username }}
+                on {{ post.created_at|date:"d M Y" }}
+                {% if post.updated_at != post.created_at %}
+                    Updated {{ post.updated_at|date:"d M Y" }}
+                {% endif %}
+            </div>
+            
+            {% if post.location %}
+                <p class="w3-large"><strong>Location:</strong> {{ post.location }}</p>
+            {% endif %}
+
+            <div class="w3-container w3-padding-large w3-light-grey w3-margin-top w3-round">
+                <p>{{ post.description|linebreaks }}</p>
+            </div>
+
+            <div class="w3-container w3-margin-top">
+                <div class="w3-row">
+                    <div class="w3-col s6">
+                        <form method="post" action="{% url 'rate_the_view:upvote' post.slug %}">
+                            {% csrf_token %}
+                            <button class="w3-button w3-green w3-round-large w3-large">
+                                ↑ Upvote ({{ post.upvote_count }})
+                            </button>
+                        </form>
+                    </div>
+                    <div class="w3-col s6">
+                        <form method="post" action="{%url 'rate_the_view:downvote' post.slug %}">
+                            {% csrf_token %}
+                            <button class="w3-button w3-red w3-round-large w3-large">
+                                ↓ Downvote ({{ post.downvote_count }})
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <p class="w3-center w3-large w3-margin-top">
+                    <strong>Score: {{ post.net_score }}</strong>
+                </p>
+            </div>
+
+            <div class="w3-center w3-padding-32">
+                <a href="{% url 'rate_the_view:home' %}" class="w3-button w3-border w3-round-large">Back to all posts</a>
+            </div>
+        </div>
+    </body>
+</html>

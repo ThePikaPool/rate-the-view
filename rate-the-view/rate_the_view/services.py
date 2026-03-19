@@ -1,32 +1,32 @@
-from .models import View, Comment, Vote
+from .models import Post, Comment, Vote
 
 
-def get_all_views():
-    return View.objects.all()
+def get_all_posts():
+    return Post.objects.all()
 
 
-def get_view(view_id):
-    return View.objects.get(id=view_id)
+def get_post(post_id):
+    return Post.objects.get(id=view_id)
 
 
-def add_view(user, location, description):
-    view = View.objects.create(
+def add_post(user, location, description):
+    post = Post.objects.create(
         user=user,
         location=location,
         description=description
     )
-    return view
+    return post
 
 
-def delete_view(view_id):
-    view = View.objects.get(id=view_id)
-    view.delete()
+def delete_post(post_id):
+    post = Post.objects.get(id=post_id)
+    post.delete()
 
 
-def add_comment(user, view, content):
+def add_comment(user, post, content):
     comment = Comment.objects.create(
         user=user,
-        view=view,
+        post=post,
         content=content
     )
     return comment
@@ -36,19 +36,19 @@ def get_comments(view):
     return Comment.objects.filter(view=view)
 
 
-def upvote_view(user, view):
+def upvote_post(user, post):
     vote = Vote.objects.create(
         user=user,
-        view=view,
+        post=post,
         upvote=True
     )
     return vote
 
 
-def downvote_view(user, view):
+def downvote_post(user, post):
     vote = Vote.objects.create(
         user=user,
-        view=view,
+        post=post,
         downvote=True
     )
     return vote
