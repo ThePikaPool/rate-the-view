@@ -60,6 +60,10 @@
 
             <p><strong>@{{ post.username }}</strong> • {{ post.location }}</p>
 
+            {% if post.image %}
+            <img src="{{ post.image }}" alt="View image" width="400">
+            {% endif %}
+        
             <p>{{ post.title }}</p>
 
             <!-- BUTTON HANDLING -->

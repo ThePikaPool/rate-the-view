@@ -13,7 +13,8 @@ def home(request):
             "username": "callum3925",
             "location": "Isle of Skye",
             "title": "Sunset at Isle of Skye",
-            "votes": 82
+            "votes": 82,
+            "image": "https://via.placeholder.com/400"
         }
     ]
 
