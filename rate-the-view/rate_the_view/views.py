@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .forms import UserForm
 
 def home(request):
 
@@ -58,3 +59,24 @@ def profile(request, username):
 
 def contact_us(request):
     return render(request, 'rate_the_view/contact_us.html')
+
+
+def signup(request):
+    registered = False
+
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+
+        if user_form.is_valid():
+            user_form.save()
+            registered = True
+        else:
+            print(user_form.errors)
+    else:
+        user_form = UserForm()
+
+    return render(
+        request,
+        'rate_the_view/signup.html',
+        {'user_form': user_form, 'registered': registered}
+    )

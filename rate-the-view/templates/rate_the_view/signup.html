@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Sign Up</title>
+</head>
+
+<body>
+<div class="container">
+    <h1>Sign Up</h1>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Upload</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="/contact-us/">Contact Us</a></li>
+                <li class="active"><a href="/signup/">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <hr>
+
+    {% if registered %}
+        <strong>Thank you for signing up!</strong>
+    {% else %}
+        <form id="user_form" method="post" action="/signup/">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            <input type="submit" name="submit" value="Sign Up" class="btn btn-primary">
+        </form>
+    {% endif %}
+
+</div>
+</body>
+</html>
