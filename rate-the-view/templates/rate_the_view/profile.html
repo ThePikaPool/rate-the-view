@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
     <title>{{ user.username }} - Profile</title>
 </head>
 
 <body>
 
+<div class="w3-container w3-emerald">
+
 <h1>Rate the View</h1>
 
-<nav>
+</div>
+
+<div class="w3-bar w3-olive">
+
     <a href="{% url 'rate_the_view:home' %}">Home</a>
     <a href="#">Upload</a>
 
@@ -20,21 +26,31 @@
     {% endif %}
 
     <a href="/contact-us">Contact Us</a>
-</nav>
 
-<hr>
+</div>
+
+<div class="w3-container w3-olive">
 
 <h2>@{{ user.username }}</h2>
 
+<div class="w3-container w3-pale-green w3-cell">
 <p>Total Likes: {{ user.total_likes }} | Total Posts: {{ user.total_posts }}</p>
+</div>
 
+<div class="w3-container w3-pale-green w3-cell">
 <p>Following: {{ user.following }} | Followers: {{ user.followers }}</p>
+</div>
 
+<div class="w3-round-xlarge<div class="w3-container w3-pale-green w3-cell"><div class="w3-container w3-pale-green w3-cell"> w3-green">
 <button>Edit Profile</button>
+</div>
 
-<hr>
+</div>
 
+
+<div class="w3-container w3-emerald">
 <h3>My Uploaded Views</h3>
+</div>
 
 {% for post in posts %}
 
