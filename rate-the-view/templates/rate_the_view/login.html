@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
     <title>Login - Rate the View</title>
 </head>
 
 <body>
 
+<div class="w3-container w3-emerald">
 <h1>Rate the View</h1>
+</div>
 
-<nav>
-    <a href="{% url 'rate_the_view:home' %}">Home</a>
-    <a href="{% url 'rate_the_view:login' %}">Login</a>
-</nav>
+<div class="w3-bar w3-olive">
+
+    <a href="{% url 'rate_the_view:home' %}"class="w3-bar-item w3-olive">Home</a>
+    <a href="{% url 'rate_the_view:login' %}"class="w3-bar-item w3-olive">Login</a>
+
+</div>
 
 <hr>
 

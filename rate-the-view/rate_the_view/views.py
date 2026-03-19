@@ -99,7 +99,7 @@ def upvote_post(request, slug):
 
         post.downvotes.remove(request.user)
 
-        if post.upvotes.filter(id=requst.user.id).exists():
+        if post.upvotes.filter(id=request.user.id).exists():
             post.upvotes.remove(request.user)
         else:
             post.upvotes.add(request.user)
