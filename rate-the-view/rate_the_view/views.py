@@ -72,6 +72,8 @@ def contact_us(request):
 def signup(request):
     return render(request, 'rate_the_view/signup.html')
 
+def upload(request):
+    return render(request, 'rate_the_view/upload.html')
 
 def login_view(request):
     if request.method == 'POST':

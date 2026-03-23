@@ -29,5 +29,8 @@ urlpatterns = [
 
     # Signup
     path('signup/', views.signup, name='signup'),
+
+    #Upload
+    path('upload/', views.upload, name='upload'),
     
 ]
