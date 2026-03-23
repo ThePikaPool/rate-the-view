@@ -9,9 +9,17 @@ def home(request):
     posts = Post.objects.select_related('created_by').all()
     top_views = Post.objects.all()[:3]
 
+    followed_user_ids = []
+    if request.user.is_authenticated:
+        followed_user_ids = list(
+            Follow.objects.filter(follower=request.user)
+            .values_list('following_id', flat=True)
+        )
+
     context = {
         "posts": posts,
         "top_views": top_views,
+        "followed_user_ids": followed_user_ids,
     }
 
     return render(request, 'rate_the_view/home.html', context)
@@ -104,7 +112,7 @@ def upvote_post(request, slug):
         else:
             post.upvotes.add(request.user)
 
-    return redirect('rate_the_view:view_post_detail', slug=slug)
+    return redirect('rate_the_view:home')
 
 
 @login_required
@@ -119,7 +127,7 @@ def downvote_post(request, slug):
         else:
             post.downvotes.add(request.user)
 
-    return redirect('rate_the_view:view_post_detail', slug=slug)
+    return redirect('rate_the_view:home')
 
 
 @login_required
@@ -143,4 +151,4 @@ def toggle_follow(request, username):
             following=target_user
         )
 
-    return redirect('rate_the_view:profile', username=username)
+    return redirect(request.META.get('HTTP_REFERER', 'rate_the_view:home'))

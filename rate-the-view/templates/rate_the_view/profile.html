@@ -55,7 +55,11 @@
 </div>
 
 <div class="w3-container w3-emerald">
-    <h3>My Uploaded Views</h3>
+    {% if request.user == profile_user %}
+        <h3>My Uploaded Views</h3>
+    {% else %}
+        <h3>{{ profile_user.username }}'s Uploaded Views</h3>
+    {% endif %}
 </div>
 
 {% for post in posts %}
@@ -64,8 +68,10 @@
 
         <p>▲ {{ post.votes }}</p>
 
-        <button>Edit</button>
-        <button>Delete</button>
+        {% if request.user == profile_user %}
+            <button>Edit</button>
+            <button>Delete</button>
+        {% endif %}
     </div>
 
     <hr>

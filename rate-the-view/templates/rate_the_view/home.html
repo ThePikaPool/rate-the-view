@@ -42,7 +42,14 @@
     {% for post in posts %}
         <div class="w3-container w3-olive w3-padding-16">
 
-            <p><strong>@{{ post.created_by.username }}</strong> • {{ post.location }}</p>
+            <p>
+                <strong>
+                    <a href="{% url 'rate_the_view:profile' post.created_by.username %}">
+                        @{{ post.created_by.username }}
+                    </a>
+                </strong>
+                • {{ post.location }}
+            </p>
 
             {% if post.image %}
                 <img src="{{ post.image.url }}" alt="View image" width="400">
@@ -52,13 +59,28 @@
 
             <!-- BUTTON HANDLING -->
             <div class="btn-group">
-                <button>↑ Upvote {{ post.upvote_count }}</button>
-                <button>↓ Downvote</button>
-
-                <form action="{% url 'rate_the_view:toggle_follow' post.created_by.username %}" method="post" style="display:inline;">
+               <form action="{% url 'rate_the_view:upvote' post.slug %}" method="post" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit">Follow</button>
+                    <button type="submit">↑ Upvote {{ post.upvote_count }}</button>
                 </form>
+
+                <form action="{% url 'rate_the_view:downvote' post.slug %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">↓ Downvote {{ post.downvote_count }}</button>
+                </form>
+
+                {% if request.user.is_authenticated and request.user != post.created_by %}
+                    <form action="{% url 'rate_the_view:toggle_follow' post.created_by.username %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">
+                            {% if post.created_by.id in followed_user_ids %}
+                                Unfollow
+                            {% else %}
+                                Follow
+                            {% endif %}
+                        </button>
+                    </form>
+                {% endif %}
 
                 <br>
             </div>
