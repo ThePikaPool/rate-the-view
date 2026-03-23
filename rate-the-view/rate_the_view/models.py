@@ -10,6 +10,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=250, unique=True, blank=True)
     description = models.TextField(blank=True)
     location = models.CharField(max_length=100, blank=True)
+    image = ResizedImageField(size=[800, 600], upload_to='posts/', blank=True, null=True)
 
     created_by = models.ForeignKey(
         User,

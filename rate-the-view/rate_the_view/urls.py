@@ -18,7 +18,7 @@ urlpatterns = [
     path('contact-us/', views.contact_us, name='contact_us'),
 
     # Post detail
-    path('posts/<slug:slug>/', views.view_post_detail, name='view_post'),
+    path('posts/<slug:slug>/', views.view_post_detail, name='view_post_detail'),
 
     # Voting
     path('posts/<slug:slug>/upvote/', views.upvote_post, name='upvote'),
