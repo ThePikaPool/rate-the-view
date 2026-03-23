@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <!-- w3 CDN things //David -->
-     <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
 
     <title>Rate the View</title>
-    
 </head>
 
 <body>
@@ -13,17 +12,14 @@
 <div class="container">
 
     <div class="w3-container w3-emerald">
-
-    <h1>Rate the View</h1>
-
+        <h1>Rate the View</h1>
     </div>
 
     <!-- NAV SECTION CSS -->
-
     <div class="w3-bar w3-olive">
 
-        <a href="{% url 'rate_the_view:home' %}"class="w3-bar-item w3-button">Home</a>
-        <a href="#"class="w3-bar-item w3-button">Upload</a>
+        <a href="{% url 'rate_the_view:home' %}" class="w3-bar-item w3-button">Home</a>
+        <a href="#" class="w3-bar-item w3-button">Upload</a>
 
         {% if request.user.is_authenticated %}
             <a href="{% url 'rate_the_view:profile' request.user.username %}" class="w3-bar-item w3-button">Profile</a>
@@ -32,73 +28,59 @@
             <a href="{% url 'rate_the_view:login' %}" class="w3-bar-item w3-button">Login</a>
         {% endif %}
 
-        <a href="/contact-us"class="w3-bar-item w3-button">Contact Us</a>
+        <a href="/contact-us" class="w3-bar-item w3-button">Contact Us</a>
 
     </div>
-
     <!-- NAV SECTION ENDED -->
 
-
-
     <!-- Posts title container -->
-
     <div class="w3-container w3-pale-green">
-
-    <h2>Posts</h2>
-
+        <h2>Posts</h2>
     </div>
-
     <!-- Posts container over-->
 
-
-
-    <!-- Since this is the beginning of the post loop, no css is applied to this directly;
-     just inside the actual statement -->
     {% for post in posts %}
-
         <div class="w3-container w3-olive w3-padding-16">
 
-            <p><strong>@{{ post.username }}</strong> • {{ post.location }}</p>
+            <p><strong>@{{ post.created_by.username }}</strong> • {{ post.location }}</p>
 
             {% if post.image %}
-            <img src="{{ post.image }}" alt="View image" width="400">
+                <img src="{{ post.image.url }}" alt="View image" width="400">
             {% endif %}
-        
+
             <p>{{ post.title }}</p>
 
             <!-- BUTTON HANDLING -->
-
             <div class="btn-group">
-
-                <button>↑ Upvote {{ post.votes }}</button>
+                <button>↑ Upvote {{ post.upvote_count }}</button>
                 <button>↓ Downvote</button>
-                <button>Follow</button>
-                <br>
-                
-            </div>
 
+                <form action="{% url 'rate_the_view:toggle_follow' post.created_by.username %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Follow</button>
+                </form>
+
+                <br>
+            </div>
             <!-- END BUTTON HANDLING -->
 
         </div>
-
     {% empty %}
         <p>No more posts available.</p>
     {% endfor %}
 
     <div class="w3-container w3-pale-green">
+        <h3>Top Views of the Week</h3>
 
-    <h3>Top Views of the Week</h3>
+        <ol>
+            {% for view in top_views %}
+                <li>{{ view.title }} - ▲{{ view.upvote_count }}</li>
+            {% empty %}
+                <li>No top views available.</li>
+            {% endfor %}
+        </ol>
 
-    <ol>
-        {% for view in top_views %}
-            <li>{{ view.title }} - ▲{{ view.votes }}</li>
-        {% empty %}
-            <li>No top views available.</li>
-        {% endfor %}
-    </ol>
-
-    <button>View</button>
-
+        <button>View</button>
     </div>
 
 </div>

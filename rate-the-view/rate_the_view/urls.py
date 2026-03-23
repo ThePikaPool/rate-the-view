@@ -23,5 +23,8 @@ urlpatterns = [
     # Voting
     path('posts/<slug:slug>/upvote/', views.upvote_post, name='upvote'),
     path('posts/<slug:slug>/downvote/', views.downvote_post, name='downvote'),
+
+    # Following
+    path('user/<str:username>/follow/', views.toggle_follow, name='toggle_follow'),
     
 ]

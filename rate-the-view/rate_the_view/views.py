@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-
-from .models import Post
+from .models import Post, Follow
 def home(request):
 
     #Example placeholder data for homepage posts
@@ -10,7 +10,7 @@ def home(request):
     #Teammate who implements the database should replace this
     posts = [
         {
-            "username": "callum3925",
+            "username": "test",
             "location": "Isle of Skye",
             "title": "Sunset at Isle of Skye",
             "votes": 82,
@@ -119,3 +119,26 @@ def downvote_post(request, slug):
             post.downvotes.add(request.user)
 
     return redirect('rate_the_view:view_post', slug=slug)
+
+@login_required
+def toggle_follow(request, username):
+    target_user = get_object_or_404(User, username=username)
+
+    # Prevent users from following themselves
+    if request.user == target_user:
+        return redirect('rate_the_view:profile', username=username)
+
+    existing_follow = Follow.objects.filter(
+        follower=request.user,
+        following=target_user
+    ).first()
+
+    if existing_follow:
+        existing_follow.delete()
+    else:
+        Follow.objects.create(
+            follower=request.user,
+            following=target_user
+        )
+
+    return redirect('rate_the_view:profile', username=username)
