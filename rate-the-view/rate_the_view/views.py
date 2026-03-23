@@ -3,41 +3,25 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import Post, Follow
+
+
 def home(request):
+    posts = Post.objects.select_related('created_by').all()
+    top_views = Post.objects.all()[:3]
 
-    #Example placeholder data for homepage posts
-    #This is temporary so the template can render
-    #Teammate who implements the database should replace this
-    posts = [
-        {
-            "username": "test",
-            "location": "Isle of Skye",
-            "title": "Sunset at Isle of Skye",
-            "votes": 82,
-            "image": "https://via.placeholder.com/400"
-        }
-    ]
-
-    context = {"posts": posts}
+    context = {
+        "posts": posts,
+        "top_views": top_views,
+    }
 
     return render(request, 'rate_the_view/home.html', context)
 
+
 @login_required
 def profile(request, username):
+    profile_user = get_object_or_404(User, username=username)
 
-    #Example placeholder data for homepage posts
-    #This is temporary so the template can render
-    #Teammate who implements the database should replace this
-    user = {
-        "username": username,
-        "bio": "Travel photographer exploring scenic views around the world.",
-        "total_likes": 421,
-        "total_posts": 4,
-        "following": 82,
-        "followers": 2211
-    }
-
-    #Example placeholder posts belonging to the user
+    # Example placeholder posts belonging to the user
     posts = [
         {
             "image": "https://via.placeholder.com/300",
@@ -53,9 +37,22 @@ def profile(request, username):
         }
     ]
 
+    follower_count = Follow.objects.filter(following=profile_user).count()
+    following_count = Follow.objects.filter(follower=profile_user).count()
+
+    is_following = False
+    if request.user.is_authenticated and request.user != profile_user:
+        is_following = Follow.objects.filter(
+            follower=request.user,
+            following=profile_user
+        ).exists()
+
     context = {
-        "user": user,
-        "posts": posts
+        "profile_user": profile_user,
+        "posts": posts,
+        "follower_count": follower_count,
+        "following_count": following_count,
+        "is_following": is_following,
     }
 
     return render(request, 'rate_the_view/profile.html', context)
@@ -63,6 +60,7 @@ def profile(request, username):
 
 def contact_us(request):
     return render(request, 'rate_the_view/contact_us.html')
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -74,16 +72,17 @@ def login_view(request):
         if user is not None:
             login(request, user)
             return redirect('rate_the_view:home')
-
         else:
             context = {"error": "Invalid username or password"}
             return render(request, 'rate_the_view/login.html', context)
 
     return render(request, 'rate_the_view/login.html')
 
+
 def logout_view(request):
     logout(request)
     return redirect('rate_the_view:home')
+
 
 def view_post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -91,6 +90,7 @@ def view_post_detail(request, slug):
         'post': post,
     }
     return render(request, 'rate_the_view/view_post.html', context)
+
 
 @login_required
 def upvote_post(request, slug):
@@ -104,11 +104,12 @@ def upvote_post(request, slug):
         else:
             post.upvotes.add(request.user)
 
-    return redirect('rate_the_view:view_post', slug=slug)
+    return redirect('rate_the_view:view_post_detail', slug=slug)
+
 
 @login_required
 def downvote_post(request, slug):
-    if request.method == "POST":    
+    if request.method == "POST":
         post = get_object_or_404(Post, slug=slug)
 
         post.upvotes.remove(request.user)
@@ -118,7 +119,8 @@ def downvote_post(request, slug):
         else:
             post.downvotes.add(request.user)
 
-    return redirect('rate_the_view:view_post', slug=slug)
+    return redirect('rate_the_view:view_post_detail', slug=slug)
+
 
 @login_required
 def toggle_follow(request, username):
