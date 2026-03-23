@@ -69,6 +69,9 @@ def profile(request, username):
 def contact_us(request):
     return render(request, 'rate_the_view/contact_us.html')
 
+def signup(request):
+    return render(request, 'rate_the_view/signup.html')
+
 
 def login_view(request):
     if request.method == 'POST':

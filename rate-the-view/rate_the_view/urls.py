@@ -26,5 +26,8 @@ urlpatterns = [
 
     # Following
     path('user/<str:username>/follow/', views.toggle_follow, name='toggle_follow'),
+
+    # Signup
+    path('signup/', views.signup, name='signup'),
     
 ]
