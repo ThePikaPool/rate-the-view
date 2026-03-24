@@ -1,4 +1,4 @@
-from .models import Post, Comment, Vote
+from .models import Post, Follow, Comment, Vote
 
 
 def get_all_posts():
@@ -6,7 +6,7 @@ def get_all_posts():
 
 
 def get_post(post_id):
-    return Post.objects.get(id=view_id)
+    return Post.objects.get(id=post_id)
 
 
 def add_post(user, location, description):
@@ -52,3 +52,25 @@ def downvote_post(user, post):
         downvote=True
     )
     return vote
+
+def get_followers_of(user):
+    return Follow.objects.filter(following=user)
+
+def get_followed_by(user):
+    return Follow.objects.filter(follower=user)
+
+def unravel_list(list):
+
+    newlist = []
+    
+    for elt in list:
+
+        if type(elt) == list:
+            for x in elt:
+                newlist.append(x)
+
+        else:
+            newlist.append(elt)
+
+    return newlist
+                

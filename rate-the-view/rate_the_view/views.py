@@ -3,20 +3,47 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import Post, Follow
+import services
+import random
 
 
 def home(request):
-    posts = Post.objects.select_related('created_by').all()
+    all_posts = Post.objects.select_related('created_by').all()
     top_views = Post.objects.all()[:3]
 
     followed_user_ids = []
     if request.user.is_authenticated:
-        followed_user_ids = list(
-            Follow.objects.filter(follower=request.user)
-            .values_list('following_id', flat=True)
-        )
+        # gets a list of all the ids of people who the user follows
 
+        followed_user_ids = list(
+            services.get_followed_by(request.user).values_list('following_id', flat=True)
+        )
+        # changed the above to use services.py instead of its own thing, this'll
+        # make the code cleaner - David
+
+        # alg for homepage begins here
+
+        number_of_followed_users = len(followed_user_ids)
+        random_indices = [random.randint(0, number_of_followed_users) for i in range(5)]
+        # this picks random people from the list that the user follows
+
+        randomly_chosen_followed_ids = [followed_user_ids[x] for x in random_indices]
+        corresponding_users = [User.objects.filter(id=x) for x in randomly_chosen_followed_ids]
+        # this uses the previous rng to get the ids and therefore user objects from the database
+
+        followed_posts_complex = [Post.objects.filter(created_by=x) for x in corresponding_users]
+        flattened_posts = services.unravel_list(followed_posts_complex)
+        # then, get all the posts these users have made and flatten out the list
+
+        posts = flattened_posts.extend(top_views)
+        #put the posts in a list with the top views...
+        random.shuffle(posts)
+        # and shuffle it around randomly :)
+
+        # all - David
+        
     context = {
+
         "posts": posts,
         "top_views": top_views,
         "followed_user_ids": followed_user_ids,
@@ -30,6 +57,7 @@ def profile(request, username):
     profile_user = get_object_or_404(User, username=username)
 
     # Example placeholder posts belonging to the user
+
     posts = [
         {
             "image": "https://via.placeholder.com/300",
