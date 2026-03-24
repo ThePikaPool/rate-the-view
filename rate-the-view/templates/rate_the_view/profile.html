@@ -36,6 +36,9 @@
 
     <h2>@{{ profile_user.username }}</h2>
 
+    <p>{{ profile_user.first_name }}  {{ profile_user.last_name }}</p>
+    <p>{{ profile_user.email }}</p>
+
     </div>
 
     <div class="w3-container w3-olive w3-cell-middle">
@@ -61,7 +64,10 @@
             </button>
         </form>
     {% else %}
-        <button>Edit Profile</button>
+<!--Button to allow user to edit their own profile-->
+        <a href="{% url 'rate_the_view:edit_profile' %}">
+            <button>Edit Profile</button>
+        </a>
     {% endif %}
 </div>
 

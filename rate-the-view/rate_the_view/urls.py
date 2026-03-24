@@ -32,5 +32,8 @@ urlpatterns = [
 
     #Upload
     path('upload/', views.upload, name='upload'),
+
+    #edit profile
+    path('edit-profile/', views.edit_profile, name='edit_profile'),
     
 ]

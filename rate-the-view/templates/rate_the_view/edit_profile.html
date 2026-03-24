@@ -1,0 +1,36 @@
+
+<!-- form for edding users profile details-->
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <title>Edit Profile</title>
+</head>
+
+<body>
+
+<div class="w3-container w3-emerald">
+    <h1>Rate the View</h1>
+</div>
+
+<div class="w3-bar w3-olive">
+    <a href="{% url 'rate_the_view:home' %}" class="w3-bar-item w3-olive">Home</a>
+    <a href="{% url 'rate_the_view:upload' %}" class="w3-bar-item w3-olive">Upload</a>
+    <a href="{% url 'rate_the_view:profile' request.user.username %}" class="w3-bar-item w3-olive">Profile</a>
+    <a href="{% url 'rate_the_view:logout' %}" class="w3-bar-item w3-olive">Logout</a>
+    <a href="{% url 'rate_the_view:contact_us' %}" class="w3-bar-item w3-olive">Contact Us</a>
+</div>
+
+<div class="w3-container w3-pale-green">
+    <h2>Edit Profile</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save Changes" class="w3-button w3-olvive">
+        <a href="{% url 'rate_the_view:profile' request.user.username %}" class="w3-button w3-light-grey">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>

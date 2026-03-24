@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Follow
 from . import services
 import random
-
+from .forms import UserForm, EditProfileForm
 
 def home(request):
     all_posts = Post.objects.select_related('created_by').all()
@@ -216,3 +216,22 @@ def toggle_follow(request, username):
         )
 
     return redirect(request.META.get('HTTP_REFERER', 'rate_the_view:home'))
+
+
+#allows logged in users to update their username, email and first + last name
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+
+
+        if form.is_valid():
+            form.save()
+            return redirect('rate_the_view:profile', username=request.user.username)
+        
+    else:
+        form = EditProfileForm(instance=request.user)
+
+    context = {'form': form}
+    return render(request, 'rate_the_view/edit_profile.html', context)
