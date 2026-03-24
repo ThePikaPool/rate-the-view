@@ -114,12 +114,17 @@ def profile(request, username):
             following=profile_user
         ).exists()
 
+    total_likes = sum(post.upvote_count for post in posts)
+    # to show total likes on profile
+
     context = {
         "profile_user": profile_user,
         "posts": posts,
         "follower_count": follower_count,
         "following_count": following_count,
         "is_following": is_following,
+        "total_likes": total_likes,
+
     }
 
     return render(request, 'rate_the_view/profile.html', context)
