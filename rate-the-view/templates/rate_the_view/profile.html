@@ -6,54 +6,69 @@
 </head>
 
 <body>
-
+<!-- PAGE TITLE -->
 <div class="w3-container w3-emerald">
-    <h1>Rate the View</h1>
+<h1>Rate the View</h1>
 </div>
+<!-- PAGE TITLE OVER-->
 
+<!-- PAGE NAVBAR -->
 <div class="w3-bar w3-olive">
-    <a href="{% url 'rate_the_view:home' %}" class="w3-bar-item w3-olive">Home</a>
-    <a href="#">Upload</a>
+
+    <a href="{% url 'rate_the_view:home' %}" class="w3-bar-item w3-button">Home</a>
+    <a href="#"class="w3-bar-item w3-button">Upload</a>
 
     {% if request.user.is_authenticated %}
-        <a href="{% url 'rate_the_view:profile' request.user.username %}" class="w3-bar-item w3-olive">Profile</a>
-        <a href="{% url 'rate_the_view:logout' %}" class="w3-bar-item w3-olive">Logout</a>
+        <a href="{% url 'rate_the_view:profile' request.user.username %}" class="w3-bar-item w3-button">Profile</a>
+        <a href="{% url 'rate_the_view:logout' %}" class="w3-bar-item w3-button">Logout</a>
     {% else %}
-        <a href="{% url 'rate_the_view:login' %}" class="w3-bar-item w3-olive">Login</a>
+        <a href="{% url 'rate_the_view:login' %}" class="w3-bar-item w3-button">Login</a>
     {% endif %}
 
-    <a href="/contact-us" class="w3-bar-item w3-olive">Contact Us</a>
+    <a href="/contact-us"class="w3-bar-item w3-button">Contact Us</a>
 </div>
+<!-- PAGE NAVBAR OVER-->
 
-<div class="w3-container w3-olive">
+<!-- TOP ANNOYING PART -->
+<div class="w3-cell-row w3-pale-green">
+
+    <div class="w3-container w3-green w3-cell-middle">
+
     <h2>@{{ profile_user.username }}</h2>
 
-    <div class="w3-container w3-pale-green w3-cell">
+    </div>
+
+    <div class="w3-container w3-olive w3-cell-middle">
         <p>Total Likes: 0 | Total Posts: {{ posts|length }}</p>
     </div>
 
-    <div class="w3-container w3-pale-green w3-cell">
+    <div class="w3-container w3-olive w3-cell-middle">
         <p>Following: {{ following_count }} | Followers: {{ follower_count }}</p>
     </div>
 
-    <div class="w3-container w3-pale-green w3-cell">
-        {% if request.user != profile_user %}
-            <form action="{% url 'rate_the_view:toggle_follow' profile_user.username %}" method="post">
-                {% csrf_token %}
-                <button type="submit">
-                    {% if is_following %}
-                        Unfollow
-                    {% else %}
-                        Follow
-                    {% endif %}
-                </button>
-            </form>
-        {% else %}
-            <button>Edit Profile</button>
-        {% endif %}
-    </div>
 </div>
 
+<div class="w3-container w3-pale-green w3-padding">
+    {% if request.user != profile_user %}
+        <form action="{% url 'rate_the_view:toggle_follow' profile_user.username %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="w3-button w3-green">
+                {% if is_following %}
+                    Unfollow
+                {% else %}
+                    Follow
+                {% endif %}
+            </button>
+        </form>
+    {% else %}
+        <button>Edit Profile</button>
+    {% endif %}
+</div>
+
+
+<!-- TOP ANNOYING PART OVER -->
+
+<!-- PAGE BODY -->
 <div class="w3-container w3-emerald">
     {% if request.user == profile_user %}
         <h3>My Uploaded Views</h3>
@@ -63,7 +78,7 @@
 </div>
 
 {% for post in posts %}
-    <div>
+    <div class="w3-container w3-pale-green">
         <img src="{{ post.image }}" alt="User view" width="300">
 
         <p>▲ {{ post.votes }}</p>

@@ -1,9 +1,14 @@
 from .models import Post, Follow
+from django.contrib.auth.models import User
 # comment, vote.
 
 
 def get_all_posts():
     return Post.objects.all()
+
+def get_posts_from_user(user):
+    assert type(user) == User
+    return list(Post.objects.filter(created_by=user))
 
 
 def get_post(post_id):

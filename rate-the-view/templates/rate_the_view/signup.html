@@ -1,66 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
     <title>Sign Up</title>
 </head>
 
 <body>
 <div class="container">
+
+    <div class="w3-container w3-emerald">
     <h1>Sign Up</h1>
+    </div>
 
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li><a href="#">Upload</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="/contact-us/">Contact Us</a></li>
-                <li class="active"><a href="/signup/">Sign Up</a></li>
-                <li><a href="/loogin/">Login</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <hr>
+    
+    <div class="container-fluid">
 
+
+            <div class="w3-bar w3-olive">
+            <a href="/"class="w3-bar-item w3-button">Home</a>
+            <a href="#"class="w3-bar-item w3-button">Upload</a>
+            <a href="#"class="w3-bar-item w3-button">Profile</a>
+            <a href="/contact-us/"class="w3-bar-item w3-button">Contact Us</a>
+            <a href="/signup/"class="w3-bar-item w3-button">Sign Up</a>
+            <a href="/login/"class="w3-bar-item w3-button">Login</a>
+            </div>
+
+
+
+    </div>
+
+    <div class="w3-container w3-pale-green">
     <h3>Create an Account</h3>
+    </div>
 
     <form method="post">
+
+        <div class="w3-container w3-olive w3-padding-32">
         {% csrf_token %}
 
         <div class="form-group">
-            <label>Username</label>
+            <label for="username">Username</label><br>
             <input type="text" name="username" class="form-control" placeholder="Enter username">
         </div>
 
         <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="email" class="form-control" placeholder="Enter email">
+            <br><label for="email">Email</label><br>
+            <input type="email" name="email" class="form-control" placeholder="Enter email...">
         </div>
 
         <div class="form-group">
-            <label>Password</label>
+            <br><label for="password">Password</label><br>
             <input type="password" name="password1" class="form-control" placeholder="Enter password">
         </div>
 
         <div class="form-group">
-            <label>Confirm Password</label>
+            <br><label for="password2">Confirm Password</label><br>
             <input type="password" name="password2" class="form-control" placeholder="Confirm password">
         </div>
 
-        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <br><button type="submit" class="btn btn-primary">Sign Up</button>
+    </div>
     </form>
 
-    <br>
-
+    <div class="w3-container w3-pale-green">
     <p>Already have an account? <a href="/login/">Log in here</a>.</p>
+    </div>
     
 </div>
 </body>

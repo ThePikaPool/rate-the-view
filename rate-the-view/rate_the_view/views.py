@@ -26,7 +26,7 @@ def home(request):
             
 
             number_of_followed_users = len(followed_user_ids)
-            random_indices = [random.randint(0, number_of_followed_users-1) for i in range(number_of_followed_users % 5)]
+            random_indices = [random.randint(0, number_of_followed_users-1) for i in range(number_of_followed_users % 10)]
             # this picks random people from the list that the user follows
 
             randomly_chosen_followed_ids = [followed_user_ids[x] for x in random_indices]
@@ -78,7 +78,7 @@ def profile(request, username):
 
     # Example placeholder posts belonging to the user
 
-    posts = [
+    ''' posts = [
         {
             "image": "https://via.placeholder.com/300",
             "votes": 120
@@ -92,6 +92,17 @@ def profile(request, username):
             "votes": 162
         }
     ]
+    '''
+    
+
+    #Commented out - David
+
+    # getting posts block starts here:
+
+    posts = services.get_posts_from_user(profile_user)
+
+
+    #... and ends here - David
 
     follower_count = Follow.objects.filter(following=profile_user).count()
     following_count = Follow.objects.filter(follower=profile_user).count()
