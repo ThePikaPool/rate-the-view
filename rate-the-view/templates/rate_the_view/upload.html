@@ -1,59 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Upload View</title>
 </head>
 
 <body>
-<div class="container">
-    <h1>Upload a View</h1>
 
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li class="active"><a href="/upload/">Upload</a></li>
-                <li><a href="/signup/">Sign Up</a></li>
-                <li><a href="/login/">Login</a></li>
-                <li><a href="/contact-us/">Contact Us</a></li>
-            </ul>
-        </div>
-    </nav>
+<!-- HEADER -->
+<div class="w3-container w3-emerald">
+    <h1>Rate the View</h1>
+</div>
 
-    <hr>
+<!-- NAVBAR -->
+<div class="w3-bar w3-olive">
+    <a href="{% url 'rate_the_view:home' %}" class="w3-bar-item w3-button">Home</a>
+    <a href="{% url 'rate_the_view:upload' %}" class="w3-bar-item w3-button w3-green">Upload</a>
 
-    <form id="upload_form" method="post" enctype="multipart/form-data">
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'rate_the_view:profile' request.user.username %}" class="w3-bar-item w3-button">Profile</a>
+        <a href="{% url 'rate_the_view:logout' %}" class="w3-bar-item w3-button">Logout</a>
+    {% else %}
+        <a href="{% url 'rate_the_view:login' %}" class="w3-bar-item w3-button">Login</a>
+    {% endif %}
+
+    <a href="{% url 'rate_the_view:contact_us' %}" class="w3-bar-item w3-button">Contact Us</a>
+</div>
+
+<!-- CONTENT -->
+<div class="w3-container w3-pale-green w3-padding">
+
+    <h2>Upload a View</h2>
+
+    <form method="post" enctype="multipart/form-data" class="w3-container">
+
         {% csrf_token %}
 
-        <div class="form-group">
-            <label for="image">Image</label>
-            <input type="file" name="image" id="image" class="form-control">
-        </div>
+        <p>
+            <label class="w3-text-olive"><b>Image</b></label>
+            <input class="w3-input" type="file" name="image" required>
+        </p>
 
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title" class="form-control" placeholder="Enter title">
-        </div>
+        <p>
+            <label class="w3-text-olive"><b>Title</b></label>
+            <input class="w3-input w3-border" type="text" name="title" placeholder="Enter title" required>
+        </p>
 
-        <div class="form-group">
-            <label for="location">Location</label>
-            <input type="text" name="location" id="location" class="form-control" placeholder="Enter location">
-        </div>
+        <p>
+            <label class="w3-text-olive"><b>Location</b></label>
+            <input class="w3-input w3-border" type="text" name="location" placeholder="Enter location">
+        </p>
 
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea name="description" id="description" class="form-control" rows="4" placeholder="Describe the view"></textarea>
-        </div>
+        <p>
+            <label class="w3-text-olive"><b>Description</b></label>
+            <textarea class="w3-input w3-border" name="description" rows="4" placeholder="Describe the view"></textarea>
+        </p>
 
-        <input type="submit" name="submit" value="Upload" class="btn btn-primary">
+        <button type="submit" class="w3-button w3-green">Upload</button>
+
     </form>
+
 </div>
+
 </body>
 </html>
