@@ -52,7 +52,9 @@
             </p>
 
             {% if post.image %}
-                <img src="{{ post.image.url }}" alt="View image" width="400">
+                <a href="{% url 'rate_the_view:view_post_detail' post.slug %}">
+                    <img src="{{ post.image.url }}" alt="View image" width="400">
+                </a>
             {% endif %}
 
             <p>{{ post.title }}</p>

@@ -209,7 +209,7 @@ def upvote_post(request, slug):
         else:
             post.upvotes.add(request.user)
 
-    return redirect('rate_the_view:home')
+    return redirect(request.META.get('HTTP_REFERER', 'rate_the_view:home'))
 
 
 @login_required
@@ -224,7 +224,7 @@ def downvote_post(request, slug):
         else:
             post.downvotes.add(request.user)
 
-    return redirect('rate_the_view:home')
+    return redirect(request.META.get('HTTP_REFERER', 'rate_the_view:home'))
 
 
 @login_required
