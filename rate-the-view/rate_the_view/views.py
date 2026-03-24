@@ -30,16 +30,27 @@ def home(request):
             # this picks random people from the list that the user follows
 
             randomly_chosen_followed_ids = [followed_user_ids[x] for x in random_indices]
-            corresponding_users = [User.objects.filter(id=x) for x in randomly_chosen_followed_ids]
             # this uses the previous rng to get the ids and therefore user objects from the database
 
-            followed_posts_complex = [Post.objects.filter(created_by=x) for x in corresponding_users]
-            flattened_posts = services.unravel_list(followed_posts_complex)
-            # then, get all the posts these users have made and flatten out the list
+            followed_posts = Post.objects.filter(created_by__id__in=randomly_chosen_followed_ids)
+            # this gets all posts created by the randomly selected followed users
 
-            posts = flattened_posts.copy()
-            posts.extend(top_views)
-            #put the posts in a list with the top views...
+            posts = list(followed_posts)
+            posts.extend(list(top_views))
+            # combine followed users' posts with the top views
+
+            # remove duplicate posts (in case a post appears in both lists)
+            seen_ids = set()
+            unique_posts = []
+
+            for post in posts:
+                if post.post_id not in seen_ids:
+                    seen_ids.add(post.post_id)
+                    unique_posts.append(post)
+
+            posts = unique_posts
+            # now posts only contains unique Post objects
+
             random.shuffle(posts)
             # and shuffle it around randomly :)
 
