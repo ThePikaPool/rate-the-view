@@ -268,3 +268,38 @@ def edit_profile(request):
 
     context = {'form': form}
     return render(request, 'rate_the_view/edit_profile.html', context)
+
+@login_required
+def edit_post(request, slug):
+    post = get_object_or_404(Post, slug=slug, created_by=request.user)
+
+    if request.method == 'POST':
+        # gets the edited form data from the request
+        post.title = request.POST.get('title')
+        post.location = request.POST.get('location')
+        post.description = request.POST.get('description')
+
+        new_image = request.FILES.get('image')
+        if new_image:
+            post.image = new_image
+
+        post.save()
+
+        # after saving changes, send the user back to their profile
+        return redirect('rate_the_view:profile', username=request.user.username)
+
+    context = {
+        'post': post
+    }
+    return render(request, 'rate_the_view/edit_post.html', context)
+
+
+@login_required
+def delete_post(request, slug):
+    post = get_object_or_404(Post, slug=slug, created_by=request.user)
+
+    if request.method == 'POST':
+        post.delete()
+
+    # after deleting, send the user back to their profile
+    return redirect('rate_the_view:profile', username=request.user.username)

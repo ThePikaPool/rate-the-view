@@ -35,5 +35,9 @@ urlpatterns = [
 
     #edit profile
     path('edit-profile/', views.edit_profile, name='edit_profile'),
+
+    # Edit and delete posts
+    path('posts/<slug:slug>/edit/', views.edit_post, name='edit_post'),
+    path('posts/<slug:slug>/delete/', views.delete_post, name='delete_post'),
     
 ]

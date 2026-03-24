@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Post</title>
+</head>
+
+<body>
+    <h1>Edit Post</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <p>
+            <label for="title">Title</label><br>
+            <input type="text" name="title" id="title" value="{{ post.title }}">
+        </p>
+
+        <p>
+            <label for="location">Location</label><br>
+            <input type="text" name="location" id="location" value="{{ post.location }}">
+        </p>
+
+        <p>
+            <label for="description">Description</label><br>
+            <textarea name="description" id="description" rows="4">{{ post.description }}</textarea>
+        </p>
+
+        <p>
+            <label for="image">Replace Image</label><br>
+            <input type="file" name="image" id="image">
+        </p>
+
+        {% if post.image %}
+            <p>Current image:</p>
+            <img src="{{ post.image.url }}" alt="Current image" width="300">
+        {% endif %}
+
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

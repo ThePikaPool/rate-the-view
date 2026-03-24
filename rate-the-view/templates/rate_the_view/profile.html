@@ -8,13 +8,12 @@
 <body>
 <!-- PAGE TITLE -->
 <div class="w3-container w3-emerald">
-<h1>Rate the View</h1>
+    <h1>Rate the View</h1>
 </div>
 <!-- PAGE TITLE OVER-->
 
 <!-- PAGE NAVBAR -->
 <div class="w3-bar w3-olive">
-
     <a href="{% url 'rate_the_view:home' %}" class="w3-bar-item w3-button">Home</a>
     <a href="{% url 'rate_the_view:upload' %}" class="w3-bar-item w3-button">Upload</a>
 
@@ -25,7 +24,7 @@
         <a href="{% url 'rate_the_view:login' %}" class="w3-bar-item w3-button">Login</a>
     {% endif %}
 
-    <a href="/contact-us"class="w3-bar-item w3-button">Contact Us</a>
+    <a href="/contact-us" class="w3-bar-item w3-button">Contact Us</a>
 </div>
 <!-- PAGE NAVBAR OVER-->
 
@@ -33,12 +32,10 @@
 <div class="w3-cell-row w3-pale-green">
 
     <div class="w3-container w3-green w3-cell-middle">
+        <h2>@{{ profile_user.username }}</h2>
 
-    <h2>@{{ profile_user.username }}</h2>
-
-    <p>{{ profile_user.first_name }}  {{ profile_user.last_name }}</p>
-    <p>{{ profile_user.email }}</p>
-
+        <p>{{ profile_user.first_name }} {{ profile_user.last_name }}</p>
+        <p>{{ profile_user.email }}</p>
     </div>
 
     <div class="w3-container w3-olive w3-cell-middle">
@@ -64,14 +61,12 @@
             </button>
         </form>
     {% else %}
-<!--Button to allow user to edit their own profile-->
+        <!-- Button to allow user to edit their own profile -->
         <a href="{% url 'rate_the_view:edit_profile' %}">
             <button>Edit Profile</button>
         </a>
     {% endif %}
 </div>
-
-
 <!-- TOP ANNOYING PART OVER -->
 
 <!-- PAGE BODY -->
@@ -85,13 +80,24 @@
 
 {% for post in posts %}
     <div class="w3-container w3-pale-green">
-        <img src="{{ post.image }}" alt="User view" width="300">
 
-        <p>▲ {{ post.votes }}</p>
+        {% if post.image %}
+            <a href="{% url 'rate_the_view:view_post_detail' post.slug %}">
+                <img src="{{ post.image.url }}" alt="User view" width="300">
+            </a>
+        {% endif %}
+
+        <p>▲ {{ post.upvote_count }}</p>
 
         {% if request.user == profile_user %}
-            <button>Edit</button>
-            <button>Delete</button>
+            <a href="{% url 'rate_the_view:edit_post' post.slug %}">
+                <button>Edit</button>
+            </a>
+
+            <form action="{% url 'rate_the_view:delete_post' post.slug %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
         {% endif %}
     </div>
 
