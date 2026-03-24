@@ -22,25 +22,30 @@ def home(request):
         # make the code cleaner - David
 
         # alg for homepage begins here
+        if followed_user_ids != []:
+            
 
-        number_of_followed_users = len(followed_user_ids)
-        random_indices = [random.randint(0, number_of_followed_users-1) for i in range(5)]
-        # this picks random people from the list that the user follows
+            number_of_followed_users = len(followed_user_ids)
+            random_indices = [random.randint(0, number_of_followed_users-1) for i in range(number_of_followed_users % 5)]
+            # this picks random people from the list that the user follows
 
-        randomly_chosen_followed_ids = [followed_user_ids[x] for x in random_indices]
-        corresponding_users = [User.objects.filter(id=x) for x in randomly_chosen_followed_ids]
-        # this uses the previous rng to get the ids and therefore user objects from the database
+            randomly_chosen_followed_ids = [followed_user_ids[x] for x in random_indices]
+            corresponding_users = [User.objects.filter(id=x) for x in randomly_chosen_followed_ids]
+            # this uses the previous rng to get the ids and therefore user objects from the database
 
-        followed_posts_complex = [Post.objects.filter(created_by=x) for x in corresponding_users]
-        flattened_posts = services.unravel_list(followed_posts_complex)
-        # then, get all the posts these users have made and flatten out the list
+            followed_posts_complex = [Post.objects.filter(created_by=x) for x in corresponding_users]
+            flattened_posts = services.unravel_list(followed_posts_complex)
+            # then, get all the posts these users have made and flatten out the list
 
-        posts = flattened_posts.extend(top_views)
-        #put the posts in a list with the top views...
-        random.shuffle(posts)
-        # and shuffle it around randomly :)
+            posts = flattened_posts.extend(top_views)
+            #put the posts in a list with the top views...
+            random.shuffle(posts)
+            # and shuffle it around randomly :)
 
-        # all - David
+            # all - David
+
+        else:
+            posts = top_views
 
     else:
         posts = top_views
