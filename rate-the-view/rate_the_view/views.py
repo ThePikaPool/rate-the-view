@@ -24,7 +24,7 @@ def home(request):
         # alg for homepage begins here
 
         number_of_followed_users = len(followed_user_ids)
-        random_indices = [random.randint(0, number_of_followed_users) for i in range(5)]
+        random_indices = [random.randint(0, number_of_followed_users-1) for i in range(5)]
         # this picks random people from the list that the user follows
 
         randomly_chosen_followed_ids = [followed_user_ids[x] for x in random_indices]
