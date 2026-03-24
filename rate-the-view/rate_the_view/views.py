@@ -131,7 +131,35 @@ def contact_us(request):
 def signup(request):
     return render(request, 'rate_the_view/signup.html')
 
+@login_required
 def upload(request):
+    # checks if the form has been submitted
+    if request.method == 'POST':
+        # gets the uploaded form data from the request
+        title = request.POST.get('title')
+        location = request.POST.get('location')
+        description = request.POST.get('description')
+        image = request.FILES.get('image')
+
+        # makes sure the required fields are present before creating a post
+        if title and image:
+            Post.objects.create(
+                title=title,
+                location=location,
+                description=description,
+                image=image,
+                created_by=request.user
+            )
+            # after a successful upload, send the user back to the homepage
+            return redirect('rate_the_view:home')
+
+        # if required fields are missing, reload the upload page with an error
+        context = {
+            'error': 'Title and image are required.'
+        }
+        return render(request, 'rate_the_view/upload.html', context)
+
+    # if the page is opened normally, just show the upload form
     return render(request, 'rate_the_view/upload.html')
 
 def login_view(request):

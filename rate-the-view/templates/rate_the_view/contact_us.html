@@ -15,8 +15,8 @@
     <div class="w3-container w3-olive">
 
             <a href="/"class="w3-bar-item w3-button">Home</a>
-            <a href="#"class="w3-bar-item w3-button">Upload</a>
-            <a href="#"class="w3-bar-item w3-button">Profile</a>
+            <a href="{% url 'rate_the_view:upload' %}" class="w3-bar-item w3-button">Upload</a>
+            <a href="{% url 'rate_the_view:profile' request.user.username %}" class="w3-bar-item w3-button">Profile</a>
             <a href="/contact-us/"class="w3-bar-item w3-button">Contact Us</a>
 
         
