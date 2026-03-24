@@ -37,7 +37,8 @@ def home(request):
             flattened_posts = services.unravel_list(followed_posts_complex)
             # then, get all the posts these users have made and flatten out the list
 
-            posts = flattened_posts.copy().extend(top_views)
+            posts = flattened_posts.copy()
+            posts.extend(top_views)
             #put the posts in a list with the top views...
             random.shuffle(posts)
             # and shuffle it around randomly :)
