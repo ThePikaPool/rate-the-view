@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import Post, Follow
-import services
+from . import services
 import random
 
 
@@ -41,6 +41,9 @@ def home(request):
         # and shuffle it around randomly :)
 
         # all - David
+
+    else:
+        posts = top_views
         
     context = {
 

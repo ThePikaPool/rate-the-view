@@ -1,4 +1,5 @@
-from .models import Post, Follow, Comment, Vote
+from .models import Post, Follow
+# comment, vote.
 
 
 def get_all_posts():
