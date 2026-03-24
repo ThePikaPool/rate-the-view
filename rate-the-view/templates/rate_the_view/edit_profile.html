@@ -27,7 +27,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Save Changes" class="w3-button w3-olvive">
+        <input type="submit" value="Save Changes" class="w3-button w3-olive">
         <a href="{% url 'rate_the_view:profile' request.user.username %}" class="w3-button w3-light-grey">Cancel</a>
     </form>
 </div>

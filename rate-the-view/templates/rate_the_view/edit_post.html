@@ -1,41 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
     <title>Edit Post</title>
 </head>
 
 <body>
-    <h1>Edit Post</h1>
 
-    <form method="post" enctype="multipart/form-data">
+<!-- HEADER -->
+<div class="w3-container w3-emerald">
+    <h1>Rate the View</h1>
+</div>
+
+<!-- NAVBAR -->
+<div class="w3-bar w3-olive">
+    <a href="{% url 'rate_the_view:home' %}" class="w3-bar-item w3-button">Home</a>
+    <a href="{% url 'rate_the_view:upload' %}" class="w3-bar-item w3-button">Upload</a>
+    <a href="{% url 'rate_the_view:profile' request.user.username %}" class="w3-bar-item w3-button">Profile</a>
+    <a href="{% url 'rate_the_view:logout' %}" class="w3-bar-item w3-button">Logout</a>
+    <a href="{% url 'rate_the_view:contact_us' %}" class="w3-bar-item w3-button">Contact Us</a>
+</div>
+
+<!-- CONTENT -->
+<div class="w3-container w3-pale-green w3-padding">
+    <h2>Edit Post</h2>
+
+    <form method="post" enctype="multipart/form-data" class="w3-container">
+
         {% csrf_token %}
 
         <p>
-            <label for="title">Title</label><br>
-            <input type="text" name="title" id="title" value="{{ post.title }}">
+            <label class="w3-text-olive"><b>Title</b></label>
+            <input class="w3-input w3-border" type="text" name="title" value="{{ post.title }}">
         </p>
 
         <p>
-            <label for="location">Location</label><br>
-            <input type="text" name="location" id="location" value="{{ post.location }}">
+            <label class="w3-text-olive"><b>Location</b></label>
+            <input class="w3-input w3-border" type="text" name="location" value="{{ post.location }}">
         </p>
 
         <p>
-            <label for="description">Description</label><br>
-            <textarea name="description" id="description" rows="4">{{ post.description }}</textarea>
+            <label class="w3-text-olive"><b>Description</b></label>
+            <textarea class="w3-input w3-border" name="description" rows="4">{{ post.description }}</textarea>
         </p>
 
         <p>
-            <label for="image">Replace Image</label><br>
-            <input type="file" name="image" id="image">
+            <label class="w3-text-olive"><b>Replace Image</b></label>
+            <input class="w3-input" type="file" name="image">
         </p>
 
         {% if post.image %}
-            <p>Current image:</p>
-            <img src="{{ post.image.url }}" alt="Current image" width="300">
+            <p><b>Current Image:</b></p>
+            <img src="{{ post.image.url }}" alt="Current image" width="300" class="w3-margin-bottom">
         {% endif %}
 
-        <button type="submit">Save Changes</button>
+        <button type="submit" class="w3-button w3-green">Save Changes</button>
+
+        <a href="{% url 'rate_the_view:profile' request.user.username %}" 
+           class="w3-button w3-light-grey">
+           Cancel
+        </a>
+
     </form>
+</div>
+
 </body>
 </html>
