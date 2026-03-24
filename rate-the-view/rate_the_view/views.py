@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import Post, Follow
@@ -134,6 +135,30 @@ def contact_us(request):
     return render(request, 'rate_the_view/contact_us.html')
 
 def signup(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if not username or not email or not password1 or not password2:
+            messages.error(request, "All fields are required")
+            return redirect('rate_the_view:signup')
+
+        if password1 != password2:
+            messages.error(request, "Passwords do not match")
+            return redirect('rate_the_view:signup')
+        
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password1
+        )
+
+        login(request, user)
+
+        return redirect('rate_the_view:home')
+    
     return render(request, 'rate_the_view/signup.html')
 
 @login_required
