@@ -7,6 +7,7 @@ from .models import Post, Follow
 from . import services
 import random
 from .forms import UserForm, EditProfileForm
+from django.db.models import Count
 
 def home(request):
     all_posts = Post.objects.select_related('created_by').all()
@@ -340,5 +341,10 @@ def delete_post(request, slug):
     # after deleting, send the user back to their profile
     return redirect('rate_the_view:profile', username=request.user.username)
 
-def top_views(request, slug):
-    return
+def top_views(request):
+    top_posts = (Post.objects.annotate(num_upvotes=Count('upvotes')).order_by('-num_upvotes'))[:3]
+    context = {
+        'posts':top_posts,
+    }
+
+    return render(request, 'rate_the_view/top_views.html', context)

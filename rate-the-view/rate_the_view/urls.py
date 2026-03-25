@@ -39,5 +39,8 @@ urlpatterns = [
     # Edit and delete posts
     path('posts/<slug:slug>/edit/', views.edit_post, name='edit_post'),
     path('posts/<slug:slug>/delete/', views.delete_post, name='delete_post'),
+
+    # Top Views
+    path('top-views/', views.top_views, name="top_views")
     
 ]
