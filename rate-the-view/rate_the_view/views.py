@@ -216,9 +216,20 @@ def logout_view(request):
 
 def view_post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
+
+    #tempory placeholder comments (frontend)
+
+    comments = [
+        {"user": "alice", "text": "Amazing view!"},
+        {"user": "bob", "text": "Where is this?"}
+    ]
+
     context = {
         'post': post,
+        'comments': comments,
+
     }
+    
     return render(request, 'rate_the_view/view_post.html', context)
 
 

@@ -68,9 +68,51 @@
                 </p>
             </div>
 
-            <div class="w3-center w3-padding-32">
-                <a href="{% url 'rate_the_view:home' %}" class="w3-button w3-border w3-round-large">Back to all posts</a>
+            <hr>
+
+
+        {% for comment in comments %}
+            <div class="w3-container w3-light-grey w3-padding w3-margin-bottom w3-round">
+                <strong>@{{ comment.user }}</strong>
+                <p>{{ comment.text }}</p>
             </div>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+
+        <h3>Add a Comment</h3>
+
+        {% if request.user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+
+                <p><strong>Your comment:</strong></p>
+
+                <textarea name="comment"
+                          placeholder="Write your comment..."
+                          rows="3"
+                          class="w3-input w3-border"></textarea>
+
+                <br>
+
+                <input type="submit"
+                       value="Post Comment"
+                       class="w3-button w3-olive w3-round">
+            </form>
+        {% else %}
+            <p>
+                Please <a href="{% url 'rate_the_view:login' %}">login</a> to comment.
+            </p>
+        {% endif %}
+
+        <!-- BACK BUTTON -->
+        <div class="w3-center w3-padding-32">
+            <a href="{% url 'rate_the_view:home' %}" class="w3-button w3-border w3-round-large">
+                Back to all posts
+            </a>
         </div>
-    </body>
+
+    </div>
+
+</body>
 </html>
