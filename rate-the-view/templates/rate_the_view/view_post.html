@@ -73,7 +73,7 @@
 
         {% for comment in comments %}
             <div class="w3-container w3-light-grey w3-padding w3-margin-bottom w3-round">
-                <strong>@{{ comment.user }}</strong>
+                <strong>@{{ comment.user.username }}</strong>
                 <p>{{ comment.text }}</p>
             </div>
         {% empty %}
@@ -83,7 +83,7 @@
         <h3>Add a Comment</h3>
 
         {% if request.user.is_authenticated %}
-            <form method="post">
+            <form method="post" action="{% url 'rate_the_view:view_post_detail' post.slug %}">
                 {% csrf_token %}
 
                 <p><strong>Your comment:</strong></p>

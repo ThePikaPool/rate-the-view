@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .models import Post, Follow
+from .models import Post, Follow, Comment
 from . import services
 import random
 from .forms import UserForm, EditProfileForm
@@ -218,19 +218,26 @@ def logout_view(request):
 def view_post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
 
-    #tempory placeholder comments (frontend)
+    comments = post.comments.all()
 
-    comments = [
-        {"user": "alice", "text": "Amazing view!"},
-        {"user": "bob", "text": "Where is this?"}
-    ]
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            text = request.POST.get('comment')
+
+            if text and text.strip():
+                Comment.objects.create(
+                    post=post,
+                    user=request.user,
+                    text=text.strip()
+                )
+        
+        return redirect('rate_the_view:view_post_detail', slug=slug)
 
     context = {
         'post': post,
         'comments': comments,
-
     }
-    
+
     return render(request, 'rate_the_view/view_post.html', context)
 
 
