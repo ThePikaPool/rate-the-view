@@ -339,3 +339,6 @@ def delete_post(request, slug):
 
     # after deleting, send the user back to their profile
     return redirect('rate_the_view:profile', username=request.user.username)
+
+def top_views(request, slug):
+    return
