@@ -39,8 +39,11 @@
         {% csrf_token %}
 
         <p>
+            <img id="image-preview"
+            src=""
+            style="display:none; max-width:300px; margin-top:10px; border-radius:8px;">
             <label class="w3-text-olive"><b>Image</b></label>
-            <input class="w3-input" type="file" name="image" required>
+            <input class="w3-input" type="file" name="image" id="id_image" required>
         </p>
 
         <p>
@@ -64,5 +67,8 @@
 
 </div>
 
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'upload.js' %}"></script>
 </body>
 </html>
