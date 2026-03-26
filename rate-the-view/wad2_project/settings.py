@@ -10,7 +10,7 @@ SECRET_KEY = 'dev-secret-key-rate-the-view-project'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['Danmurphy308.pythonanywhere.com']
 
 
 # APPLICATIONS
@@ -108,6 +108,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # MEDIA FILES
